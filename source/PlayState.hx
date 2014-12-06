@@ -9,12 +9,12 @@ import flixel.util.FlxColor;
 import flixel.tile.FlxTilemap;
 import flixel.group.FlxGroup;
 import flixel.group.FlxTypedGroup;
+using flixel.util.FlxSpriteUtil;
 import openfl.Assets;
-import haxe.Timer;
+import flixel.util.FlxPoint;
 
 class PlayState extends FlxState {
 
-	private static var isDead:Bool = false;
 	private var map:FlxTilemap;
 	private var player:FlxSprite;
 	private var score:FlxText;
@@ -29,13 +29,13 @@ class PlayState extends FlxState {
 
 	override public function create():Void {
 
-		FlxG.cameras.bgColor = FlxColor.WHITE;
+		FlxG.cameras.bgColor = 0xffacbcd7;
 		FlxG.mouse.visible = false;
 		super.create();
 
 		//Player
 		player = new FlxSprite(34 * 8, 25 * 8);
-		player.makeGraphic(8, 8, FlxColor.RED);
+		player.makeGraphic(8, 8, 0xff2d0000);
 		player.maxVelocity.set(80, 200);
 		player.acceleration.y = 150;
 		player.drag.x = player.maxVelocity.x * 2;
@@ -43,12 +43,12 @@ class PlayState extends FlxState {
 
 		//Text
 		text = new FlxText(0, 80, FlxG.width, "Collect all coins!");
-		text.setFormat(null, 16, FlxColor.BLACK, "center");
+		text.setFormat(null, 16, 0x778ea1, "center");
 		add(text);
 
 		//Score
 		score = new FlxText(0, 96, FlxG.width, "0");
-		score.setFormat(null, 20, FlxColor.BLACK, "center");
+		score.setFormat(null, 20, 0x778ea1, "center");
 		add(score);
 
 		//Map
@@ -70,7 +70,6 @@ class PlayState extends FlxState {
 			}
 		}
 		add(enemies);
-		
 	}
 	
 	override public function destroy():Void {
@@ -102,7 +101,8 @@ class PlayState extends FlxState {
 
 	private function addCoin(X:Int, Y:Int):Void {
 		var coin:FlxSprite = new FlxSprite(X * 8, Y * 8);
-		coin.makeGraphic(8, 8, FlxColor.GREEN);
+		coin.makeGraphic(8, 8, FlxColor.TRANSPARENT, true);
+		coin.drawEllipse(0, 0, 7, 7, FlxColor.GOLDEN);
 		objects.add(coin);
 	}
 
@@ -128,7 +128,7 @@ class PlayState extends FlxState {
 
 	private function touchEnemy(Enemy:FlxObject, Player:FlxObject):Void {
 		FlxG.sound.play("boom");
-		Sys.sleep(0.3);
+		//Sys.sleep(0.3);
 		Enemy.kill();
 		endGame();
 		

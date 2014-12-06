@@ -32,6 +32,7 @@
 	<assets path="assets">
 		<sound path="pickup.wav" id="pickup" />
 		<sound1 path="boom.wav" id="boom" />
+		<coin path="coin.png" id="coin" />
 		<tilemap path="map.csv" id="map" />
 		<tileset path="tiles.png" id="tiles" />
 		<image path="enemy.png" id="enemy" />
@@ -39,7 +40,7 @@
 	</assets>
 	
 	<!--------------------------------LIBRARIES------------------------------------->
-
+	
 	<haxelib name="flixel"/>
 	
 	<!--In case you want to use the addons package-->
