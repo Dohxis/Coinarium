@@ -19,6 +19,7 @@ class PlayState extends FlxState {
 	private var objects:FlxGroup;
 	private var enemies:FlxGroup;
 	private var text:FlxText;
+	private var scoreNumber:Int = 0;
 	private var level:Int = 1;
 	private var X:Array<Int> = [1,4,10,18,22,30,37,5,9,20,27,31,10,34,1,4,13,31,35,2,6,21,25,27,7,16,31,1,6,11,14,18,22,30,38];
 	private var Y:Array<Int> = [1,1,2,3,3,1,3,5,5,6,5,5,8,9,12,21,14,13,13,17,17,16,16,16,21,22,25,28,28,28,28,28,28,28,28];
@@ -77,12 +78,15 @@ class PlayState extends FlxState {
 		if(FlxG.keys.anyPressed(["SPACE","UP","W"])){
 			player.velocity.y = -player.maxVelocity.y / 2;
 		}
+		if(player.y > FlxG.height){
+			endGame();
+		}
 
 		super.update();
 		updateCoins(level);
 		FlxG.overlap(objects, player, getScore);
 		FlxG.collide(map, player);
-		FlxG.overlap(enemies, player, endGame);
+		FlxG.overlap(enemies, player, touchEnemy);
 		
 	}
 
@@ -106,15 +110,23 @@ class PlayState extends FlxState {
 
 	private function getScore(Coin:FlxObject, Player:FlxObject):Void {
 		Coin.kill();
-		score.text = "" + objects.countDead();
+		scoreNumber = scoreNumber + 1;
+		trace(scoreNumber);
+		score.text = "" + scoreNumber;
 		if(objects.countLiving() == 0){
 			level++;
 		}
 	}
 
-	private function endGame(Enemy:FlxObject, Player:FlxObject):Void {
-		Enemy.kill();
-		text.text = "Game Over!";
+	private function touchEnemy(Enemy:FlxObject, Player:FlxObject):Void {
+		endGame();
+	}
+
+	private function endGame():Void {
+		player.reset(34 * 8, 25 * 8);
+		scoreNumber = 0;
+		score.text = "0";
+		trace(scoreNumber);
 	}
 
 	private function addEnemy(X:Int, Y:Int, Speed:Int){
