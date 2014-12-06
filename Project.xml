@@ -29,7 +29,14 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+	<assets path="assets">
+		<sound path="pickup.wav" id="pickup" />
+		<sound1 path="boom.wav" id="boom" />
+		<tilemap path="map.csv" id="map" />
+		<tileset path="tiles.png" id="tiles" />
+		<image path="enemy.png" id="enemy" />
+		<music path="soundtrack.wav" id="track" />
+	</assets>
 	
 	<!--------------------------------LIBRARIES------------------------------------->
 

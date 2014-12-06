@@ -17,6 +17,7 @@ class MenuState extends FlxState {
 	}
 
 	override public function create():Void {
+		FlxG.sound.playMusic("track",0.25);
 		FlxG.cameras.bgColor = FlxColor.BLACK;
 
 		var title:FlxText = new FlxText(0, 50, FlxG.width, "PlaceHolder", 25);

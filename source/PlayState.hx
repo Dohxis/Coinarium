@@ -10,6 +10,7 @@ import flixel.tile.FlxTilemap;
 import flixel.group.FlxGroup;
 import flixel.group.FlxTypedGroup;
 import openfl.Assets;
+import haxe.Timer;
 
 class PlayState extends FlxState {
 
@@ -24,6 +25,7 @@ class PlayState extends FlxState {
 	private var level:Int = 1;
 	private var X:Array<Int> = [1,4,10,18,22,30,37,5,9,20,27,31,10,34,1,4,13,31,35,2,6,21,25,27,7,16,31,1,6,11,14,18,22,30,38];
 	private var Y:Array<Int> = [1,1,2,3,3,1,3,5,5,6,5,5,8,9,12,21,14,13,13,17,17,16,16,16,21,22,25,28,28,28,28,28,28,28,28];
+	private var randomNumber:Int;
 
 	override public function create():Void {
 
@@ -51,12 +53,13 @@ class PlayState extends FlxState {
 
 		//Map
 		map = new FlxTilemap();
-		map.loadMap(Assets.getText("assets/map2.csv"), "assets/tiles.png", 8, 8, FlxTilemap.OFF);
+		map.loadMap(Assets.getText("map"), "tiles", 8, 8, FlxTilemap.OFF);
 		add(map);
 
 		//Coins
 		objects = new FlxGroup();
-		addCoin(1,1);
+		randomNumber = Std.random(20);
+		addCoin(X[randomNumber],Y[randomNumber]);
 		add(objects);
 
 		//Enemies
@@ -106,17 +109,16 @@ class PlayState extends FlxState {
 	private function updateCoins(Level:Int):Void {
 		if(objects.countLiving() == 0){
 			var needToAdd:Int = 3 * Level;
-			var randomNumber:Int;
 			for(x in 0...needToAdd){
 				randomNumber = Std.random(X.length);
 				addCoin(X[randomNumber],Y[randomNumber]);
 			} 
-			trace("Coins added");
 		}
 	}
 
 	private function getScore(Coin:FlxObject, Player:FlxObject):Void {
 		Coin.kill();
+		FlxG.sound.play("pickup");
 		scoreNumber = scoreNumber + 1;
 		score.text = "" + scoreNumber;
 		if(objects.countLiving() == 0){
@@ -125,8 +127,11 @@ class PlayState extends FlxState {
 	}
 
 	private function touchEnemy(Enemy:FlxObject, Player:FlxObject):Void {
+		FlxG.sound.play("boom");
+		Sys.sleep(0.3);
 		Enemy.kill();
 		endGame();
+		
 	}
 
 	private function endGame():Void {

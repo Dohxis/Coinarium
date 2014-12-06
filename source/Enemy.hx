@@ -10,7 +10,7 @@ class Enemy extends FlxSprite {
 	
 	public function new(X:Int, Y:Int){
 		super(X, Y);
-		loadGraphic("assets/enemy.png");
+		loadGraphic("enemy");
 		antialiasing = true;
 	}
 
