@@ -18,7 +18,7 @@ class MenuState extends FlxState {
 
 	override public function create():Void {
 		FlxG.sound.playMusic("track",0.25);
-		FlxG.cameras.bgColor = FlxColor.BLACK;
+		FlxG.cameras.bgColor = 0x99356288;
 
 		var title:FlxText = new FlxText(0, 50, FlxG.width, "PlaceHolder", 25);
 		title.color = FlxColor.WHITE;
@@ -32,11 +32,11 @@ class MenuState extends FlxState {
 		desc.alignment = "center";	
 
 		var playButton:FlxButton = new FlxButton(FlxG.width / 2 - 80, 125, "Play", playScene);
-		playButton.label.setFormat(24,null,"center");
+		playButton.label.setFormat(24,1,"center");
 		playButton.makeGraphic(160, 35, FlxColor.GRAY);
 
 		var aboutButton:FlxButton = new FlxButton(FlxG.width / 2 - 80, 165, "About", aboutScene);
-		aboutButton.label.setFormat(24,null,"center");
+		aboutButton.label.setFormat(24,1,"center");
 		aboutButton.makeGraphic(160, 35, FlxColor.GRAY);
 
 		add(title);
