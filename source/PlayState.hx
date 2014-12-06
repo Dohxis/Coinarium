@@ -130,6 +130,10 @@ class PlayState extends FlxState {
 	}
 
 	private function endGame():Void {
+		Reg.score = scoreNumber;
+		if(Reg.hScore < scoreNumber){
+			Reg.hScore = scoreNumber;
+		}
 		FlxG.switchState(new EndState());
 	}
 }
