@@ -8,6 +8,7 @@ import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.tile.FlxTilemap;
 import flixel.group.FlxGroup;
+import flixel.group.FlxTypedGroup;
 import openfl.Assets;
 
 class PlayState extends FlxState {
@@ -17,7 +18,7 @@ class PlayState extends FlxState {
 	private var player:FlxSprite;
 	private var score:FlxText;
 	private var objects:FlxGroup;
-	private var enemies:FlxGroup;
+	private var enemies:FlxTypedGroup<Enemy>;
 	private var text:FlxText;
 	private var scoreNumber:Int = 0;
 	private var level:Int = 1;
@@ -25,6 +26,7 @@ class PlayState extends FlxState {
 	private var Y:Array<Int> = [1,1,2,3,3,1,3,5,5,6,5,5,8,9,12,21,14,13,13,17,17,16,16,16,21,22,25,28,28,28,28,28,28,28,28];
 
 	override public function create():Void {
+
 		FlxG.cameras.bgColor = FlxColor.WHITE;
 		FlxG.mouse.visible = false;
 		super.create();
@@ -58,9 +60,14 @@ class PlayState extends FlxState {
 		add(objects);
 
 		//Enemies
-		enemies = new FlxGroup();
-		//addEnemy(10,8,7);
+		enemies = new FlxTypedGroup<Enemy>();
+		for(y in 0...4){
+			for(x in 0...2){
+				enemies.add(new Enemy(300 + x * 55, 25 + y * 60));
+			}
+		}
 		add(enemies);
+		
 	}
 	
 	override public function destroy():Void {
@@ -111,7 +118,6 @@ class PlayState extends FlxState {
 	private function getScore(Coin:FlxObject, Player:FlxObject):Void {
 		Coin.kill();
 		scoreNumber = scoreNumber + 1;
-		trace(scoreNumber);
 		score.text = "" + scoreNumber;
 		if(objects.countLiving() == 0){
 			level++;
@@ -119,22 +125,11 @@ class PlayState extends FlxState {
 	}
 
 	private function touchEnemy(Enemy:FlxObject, Player:FlxObject):Void {
+		Enemy.kill();
 		endGame();
 	}
 
 	private function endGame():Void {
-		player.reset(34 * 8, 25 * 8);
-		scoreNumber = 0;
-		score.text = "0";
-		trace(scoreNumber);
-	}
-
-	private function addEnemy(X:Int, Y:Int, Speed:Int){
-		var enemy:FlxSprite = new FlxSprite(X * 8,Y * 8);
-		enemy.loadRotatedGraphic("assets/enemy.png");
-		enemy.antialiasing = true;
-		enemy.angle = 45;
-		enemies.add(enemy);
-		enemy.x = enemy.x + 200;
+		FlxG.switchState(new EndState());
 	}
 }
