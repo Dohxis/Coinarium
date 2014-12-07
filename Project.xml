@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="LudumDare31" file="LudumDare31" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Coinarium" file="Coinarium" main="Main" version="1" company="Dohxis" />
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
@@ -32,11 +32,12 @@
 	<assets path="assets">
 		<sound path="pickup.wav" id="pickup" />
 		<sound1 path="boom.wav" id="boom" />
-		<coin path="coin.png" id="coin" />
 		<tilemap path="map.csv" id="map" />
 		<tileset path="tiles.png" id="tiles" />
 		<image path="enemy.png" id="enemy" />
 		<music path="soundtrack.wav" id="track" />
+		<player path="player.png" id="player" />
+		<parts path="particles.png" id="parts" />
 	</assets>
 	
 	<!--------------------------------LIBRARIES------------------------------------->
@@ -44,7 +45,7 @@
 	<haxelib name="flixel"/>
 	
 	<!--In case you want to use the addons package-->
-	<!--haxelib name="flixel-addons" /-->
+	<haxelib name="flixel-addons" />
 	
 	<!--In case you want to use the ui package-->
 	<!--haxelib name="flixel-ui"/-->

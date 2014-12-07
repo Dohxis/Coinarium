@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxSprite;
 import flixel.util.FlxSpriteUtil;
+import flixel.addons.effects.FlxTrail;
 
 class Enemy extends FlxSprite {
 

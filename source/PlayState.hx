@@ -11,7 +11,8 @@ import flixel.group.FlxGroup;
 import flixel.group.FlxTypedGroup;
 using flixel.util.FlxSpriteUtil;
 import openfl.Assets;
-import flixel.util.FlxPoint;
+import flixel.addons.effects.FlxTrail;
+import flixel.effects.particles.FlxEmitterExt;
 
 class PlayState extends FlxState {
 
@@ -26,6 +27,13 @@ class PlayState extends FlxState {
 	private var X:Array<Int> = [1,4,10,18,22,30,37,5,9,20,27,31,10,34,1,4,13,31,35,2,6,21,25,27,7,16,31,1,6,11,14,18,22,30,38];
 	private var Y:Array<Int> = [1,1,2,3,3,1,3,5,5,6,5,5,8,9,12,21,14,13,13,17,17,16,16,16,21,22,25,28,28,28,28,28,28,28,28];
 	private var randomNumber:Int;
+	private var playerTrail:FlxTrail;
+	private var enemyTrail2:FlxTrail;
+	private var enemyTrail3:FlxTrail;
+	private var enemyTrail4:FlxTrail;
+	private var enemyTrail1:FlxTrail;
+	private var part:FlxEmitterExt;
+	private var delay:Int = 10000;
 
 	override public function create():Void {
 
@@ -39,7 +47,8 @@ class PlayState extends FlxState {
 		player.maxVelocity.set(60, 200);
 		player.acceleration.y = 125;
 		player.drag.x = player.maxVelocity.x * 2;
-		add(player);
+		player.antialiasing = true;
+		playerTrail = new FlxTrail(player, "player", 25, 0, 0.15, 0.001);
 
 		//Text
 		text = new FlxText(0, 80, FlxG.width, "Collect all coins!");
@@ -62,6 +71,14 @@ class PlayState extends FlxState {
 		addCoin(X[randomNumber],Y[randomNumber]);
 		add(objects);
 
+		//Explosion
+		part = new FlxEmitterExt();
+		part.setRotation(0, 0);
+		part.setMotion(0, 5, 0.2, 360, 200, 1.8);
+		part.makeParticles("parts", 1200, 0, true, 0);
+		part.setAlpha(1, 1, 0, 0);
+		add(part);
+
 		//Enemies
 		enemies = new FlxTypedGroup<Enemy>();
 		for(y in 0...4){
@@ -69,7 +86,19 @@ class PlayState extends FlxState {
 				enemies.add(new Enemy(300 + x * 55, 25 + y * 60));
 			}
 		}
+
+		enemyTrail1 = new FlxTrail(enemies.members[4], "enemy", 20, 0, 0.2, 0.01);
+		add(enemyTrail1);
+		enemyTrail2 = new FlxTrail(enemies.members[0], "enemy", 20, 0, 0.2, 0.01);
+		add(enemyTrail2);
+		enemyTrail3 = new FlxTrail(enemies.members[6], "enemy", 20, 0, 0.2, 0.01);
+		add(enemyTrail3);
+		enemyTrail4 = new FlxTrail(enemies.members[2], "enemy", 20, 0, 0.2, 0.01);
+		add(enemyTrail4);
+
 		add(enemies);
+		add(playerTrail);
+		add(player);
 	}
 	
 	override public function destroy():Void {
@@ -128,9 +157,13 @@ class PlayState extends FlxState {
 
 	private function touchEnemy(Enemy:FlxObject, Player:FlxObject):Void {
 		FlxG.sound.play("boom");
-		//Sys.sleep(0.3);
+		startPart(Player.x, Player.y);
 		Enemy.kill();
-		endGame();
+		var timer:haxe.Timer = new haxe.Timer(600);
+		timer.run = function():Void{
+		   endGame();
+		   timer.stop();
+		};
 		
 	}
 
@@ -140,5 +173,14 @@ class PlayState extends FlxState {
 			Reg.hScore = scoreNumber;
 		}
 		FlxG.switchState(new EndState());
+	}
+
+	private function startPart(X:Float = 0, Y:Float = 0):Void {	
+		if (part.visible) {
+			part.x = X;
+			part.y = Y;
+			part.start(true, 2, 0, 400);
+			part.update();
+		}
 	}
 }

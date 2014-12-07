@@ -17,7 +17,7 @@ class MenuState extends FlxState {
 	}
 
 	override public function create():Void {
-		FlxG.sound.playMusic("track",0.25);
+		FlxG.sound.playMusic("track");
 		FlxG.cameras.bgColor = 0x99356288;
 
 		var title:FlxText = new FlxText(0, 50, FlxG.width, "Coinarium", 25);
