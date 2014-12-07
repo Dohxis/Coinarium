@@ -15,9 +15,9 @@ class Enemy extends FlxSprite {
 	}
 
 	override public function update():Void {
-		increaseSpeed += 0.00001;
+		increaseSpeed += 0.000001;
 		x += speed + increaseSpeed;
-		y += speed - 0.95;
+		y += speed - 0.98;
 		FlxSpriteUtil.screenWrap(this);
 		super.update();
 	}

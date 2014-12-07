@@ -20,7 +20,7 @@ class MenuState extends FlxState {
 		FlxG.sound.playMusic("track",0.25);
 		FlxG.cameras.bgColor = 0x99356288;
 
-		var title:FlxText = new FlxText(0, 50, FlxG.width, "PlaceHolder", 25);
+		var title:FlxText = new FlxText(0, 50, FlxG.width, "Coinarium", 25);
 		title.color = FlxColor.WHITE;
 		title.alignment = "center";
 

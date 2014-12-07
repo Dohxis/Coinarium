@@ -9,7 +9,7 @@ import flixel.util.FlxColor;
 class EndState extends FlxState {
 
 	override public function create():Void {
-		FlxG.cameras.bgColor = FlxColor.BLACK;
+		FlxG.cameras.bgColor = 0x99356288;
 
 		var title:FlxText = new FlxText(0, 80, FlxG.width, "You Lost!", 35);
 		title.color = FlxColor.WHITE;

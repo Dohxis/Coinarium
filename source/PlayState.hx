@@ -36,8 +36,8 @@ class PlayState extends FlxState {
 		//Player
 		player = new FlxSprite(34 * 8, 25 * 8);
 		player.makeGraphic(8, 8, 0xff2d0000);
-		player.maxVelocity.set(80, 200);
-		player.acceleration.y = 150;
+		player.maxVelocity.set(60, 200);
+		player.acceleration.y = 125;
 		player.drag.x = player.maxVelocity.x * 2;
 		add(player);
 
@@ -84,7 +84,7 @@ class PlayState extends FlxState {
 		if(FlxG.keys.anyPressed(["RIGHT","D"])){
 			player.acceleration.x = player.maxVelocity.x * 2;
 		}
-		if(FlxG.keys.anyPressed(["SPACE","UP","W"])){
+		if(FlxG.keys.anyJustPressed(["SPACE","UP","W"])){
 			player.velocity.y = -player.maxVelocity.y / 2;
 		}
 		if(player.y > FlxG.height){
